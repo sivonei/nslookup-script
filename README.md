@@ -1,33 +1,22 @@
+# DNS Query Script in Linux
+This is a simple Bash script to perform DNS queries using the nslookup command. It allows you to query multiple domains at once and save the results to a log file.
 
-# Script de Consulta DNS em Linux
-
-Este é um script Bash simples para realizar consultas DNS usando o comando `nslookup`. Ele permite consultar múltiplos domínios de uma vez e salvar os resultados em um arquivo de log.
-
-## Como Usar
-
-# 1. Clone o repositório:
-
+# How to Use
+# Clone the repository:
 git clone https://github.com/seu-usuario/nslookup-script-linux.git
 
-# Navegue até a pasta do projeto:
+# Navigate to the project folder:
 cd nslookup-script-linux
 
-# Torne o script executável:
+# Make the script executable:
 chmod +x nslookup.sh
 
-# Execute o script:
+# Run the script:
 ./nslookup.sh
 
-# Siga as instruções na tela para inserir os domínios e o servidor DNS.
+# Follow the on-screen instructions to enter the domains and the DNS server.
 
-<!-- Funcionalidades
-1 Consulta DNS para múltiplos domínios.
-
-2 Suporte a servidores DNS personalizados.
-
-3 Salvamento dos resultados em um arquivo de log. -->
-
-# Exemplo de Uso:
-$ ./nslookup.sh
-Por favor, insira o(s) domínio(s) (separados por espaço): google.com example.com
-Por favor, insira o servidor DNS (pressione Enter para usar o DNS padrão): 8.8.8.8
+# Example of Use:
+# $ ./nslookup.sh
+# Please enter the domain(s) (separated by space): google.com example.com
+# Please enter the DNS server (press Enter to use the default DNS): 8.8.8.8

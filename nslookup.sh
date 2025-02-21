@@ -1,62 +1,62 @@
 #!/bin/bash
 
-# Verifica se o comando nslookup está disponível
+# Check if the nslookup command is available
 if ! command -v nslookup &> /dev/null; then
-    echo "Erro: o comando 'nslookup' não está disponível. Por favor, instale-o e tente novamente."
+    echo "Error: the 'nslookup' command is not available. Please install it and try again."
     exit 1
 fi
 
-# Solicita o domínio e o servidor DNS ao usuário
-read -p "Por favor, insira o(s) domínio(s) (separados por espaço): " domain_input
-read -p "Por favor, insira o servidor DNS (pressione Enter para usar o DNS padrão): " dns_server
+# Prompt the user for the domain and DNS server
+read -p "Please enter the domain(s) (separated by space): " domain_input
+read -p "Please enter the DNS server (press Enter to use the default DNS): " dns_server
 
-# Verifica se pelo menos um domínio foi inserido
+# Check if at least one domain was entered
 if [ -z "$domain_input" ]; then
-    echo "Nenhum domínio foi inserido. Uso: $0 <domínio1> <domínio2> ..."
+    echo "No domain was entered. Usage: $0 <domain1> <domain2> ..."
     exit 1
 fi
 
-# Converte a entrada do usuário em uma lista de argumentos
+# Convert user input into a list of arguments
 set -- $domain_input
 
-# Variável para armazenar os resultados
+# Variable to store the results
 log_output=""
 
-# Itera sobre cada domínio fornecido
+# Iterate over each provided domain
 for domain in "$@"; do
-    echo "Consultando DNS para: $domain"
+    echo "Querying DNS for: $domain"
     
-    # Executa nslookup e captura a saída
+    # Execute nslookup and capture the output
     if [ -z "$dns_server" ]; then
         nslookup_output=$(nslookup "$domain" 2>&1)
     else
         nslookup_output=$(nslookup "$domain" "$dns_server" 2>&1)
     fi
     
-    # Verifica se o nslookup teve sucesso
+    # Check if nslookup was successful
     if [ $? -eq 0 ]; then
-        echo "Resultado do nslookup para $domain:"
+        echo "nslookup result for $domain:"
         echo "$nslookup_output"
-        log_output+="Resultado do nslookup para $domain:\n$nslookup_output\n"
+        log_output+="nslookup result for $domain:\n$nslookup_output\n"
     else
-        echo "Erro ao consultar $domain"
+        echo "Error querying $domain"
         echo "$nslookup_output"
-        log_output+="Erro ao consultar $domain:\n$nslookup_output\n"
+        log_output+="Error querying $domain:\n$nslookup_output\n"
     fi
     
     echo "-----------------------------------"
     log_output+="-----------------------------------\n"
 done
 
-# Salvar o resultado em um arquivo de log
-read -p "Deseja salvar o resultado em um arquivo de log? (s/n): " save_log
+# Save the result to a log file
+read -p "Do you want to save the result to a log file? (y/n): " save_log
 
-if [ "$save_log" == "s" ]; then
-    # Obtém a data e hora atuais %Y-%m-%d
+if [ "$save_log" == "y" ]; then
+    # Get the current date and time
     current_date=$(date +"%d-%m-%Y_%H-%M-%S")
     log_file="nslookup_log_$current_date.txt"
     
-    # Salva o resultado no arquivo de log
+    # Save the result to the log file
     echo -e "$log_output" > "$log_file"
-    echo "Resultado salvo em $log_file"
+    echo "Result saved in $log_file"
 fi
